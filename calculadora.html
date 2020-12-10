@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            background-color: aliceblue;
+        }
+
+        .sombreado {
+        	background-color: rgba(255,255,255,0.5);
+        	border-radius: 12px 12px 0px 0px;
+			display: block;
+            height: 33px;
+            margin: auto;
+            margin-top:-87px;
+            margin-left: -11px;
+            padding-top: 56px;
+            width: 332px;
+        }
+
+        #calculadora {
+            background-color: darkturquoise;
+            border-radius: 12px;
+            box-shadow: 3px 3px 15px slategray;
+            display: block;
+            margin: 25px auto;
+			padding: 10px;
+			width: 311px;
+        }
+
+        input {
+            background-color: darkblue;
+            box-shadow: 1px 1px 1px rgb(255, 255, 255);
+            border-radius: 5px;
+            color: rgb(255, 255, 255);
+            font-size: 25px;
+            font-family: 'Staatliches', cursive;
+            height: 49px;
+            margin: 8px;
+			width: 58px;
+        }
+
+        input:first-of-type {
+            background-color: white;
+            color: darkblue;
+            font-size: 45px;
+            height: 50px;
+            margin-bottom: 15px;
+            padding-right: 5px;
+            text-align: right;
+            width: 200px;
+        }
+
+        input:nth-of-type(2) {
+            font-size: 26px;
+        }
+
+        input:nth-of-type(16) {
+            width: 136px;
+        }
+
+    </style>
+
+    <script>
+        var operacionPulsada = false;
+        var igualPulsado = false;
+        var operando1;
+        var operando2;
+        var operacion;
+        var resultado;
+
+        function asignarEventos(evento) {
+            if (document.readyState == 'complete') {
+                document.getElementById('btn_1').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_2').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_3').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_4').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_5').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_6').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_7').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_8').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_9').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_0').addEventListener('click', alPulsarNumero);
+                document.getElementById('btn_sumar').addEventListener('click', alPulsarSuma);
+                document.getElementById('btn_restar').addEventListener('click', alPulsarResta);
+                document.getElementById('btn_multiplicar').addEventListener('click', alPulsarMultiplicar);
+                document.getElementById('btn_dividir').addEventListener('click', alPulsaDividir);
+                document.getElementById('btn_igual').addEventListener('click', alPulsarIgual);
+                document.getElementById('btn_reset').addEventListener('click', alPulsarReset)
+            }
+        }
+
+        function alPulsarNumero(evento) {
+            pantalla = document.getElementById('pantalla');
+            if (pantalla.value == 0) {
+                pantalla.value = evento.target.value;
+
+            } else {
+                if (operacionPulsada) {
+                    pantalla.value = evento.target.value;
+                    operacionPulsada = false;
+                } else {
+                    pantalla.value = pantalla.value + evento.target.value;
+                }
+            }
+        }
+
+        function alPulsarSuma(evento) {
+            pantalla = document.getElementById('pantalla');
+            operacion = evento.target.value;
+            operando1 = pantalla.value;
+            operacionPulsada = true;
+        }
+
+        function alPulsarResta(evento) {
+            pantalla = document.getElementById('pantalla');
+            operacion = evento.target.value;
+            operando1 = pantalla.value;
+            operacionPulsada = true;
+        }
+
+        function alPulsarMultiplicar(evento) {
+            operacion = evento.target.value;
+            operando1 = pantalla.value;
+            operacionPulsada = true;
+        }
+        function alPulsaDividir(evento) {
+            operacion = evento.target.value;
+            operando1 = pantalla.value;
+            operacionPulsada = true;
+        }
+
+        function alPulsarIgual(evento) {
+            pantalla = document.getElementById('pantalla');
+            operando2 = pantalla.value;
+            resultado = realizarOperacion(operando1, operacion, operando2);
+            pantalla.value = resultado;
+            operacionPulsada = true;
+            igualPulsado = true;
+        }
+
+        function alPulsarReset(evento) {
+            operando1 = null;
+            operando2 = null;
+            operacionPulsada = false;
+            igualPulsado = false;
+            pantalla.value = 0;
+        }
+
+        function realizarOperacion(operando1, operacion, operando2) {
+            switch (operacion) {
+                case '+':
+                    resultado = parseInt(operando1) + parseInt(operando2);
+                    break;
+                case '-':
+                    resultado = parseInt(operando1) - parseInt(operando2);
+                    break;
+                case '*':
+                    resultado = parseInt(operando1) * parseInt(operando2);
+                    break;
+                case '/':
+                    resultado = parseInt(operando1) / parseInt(operando2);
+                    break;
+            }
+            return resultado;
+        }
+
+        document.addEventListener('readystatechange', asignarEventos);
+
+    </script>
+
+
+</head>
+
+<body>
+	<div id="calculadora">
+        <input type="text" id="pantalla" value="0">
+        <input type="button" name="operador" id="btn_reset" value="CE">
+        <span class="sombreado"></span>
+        <br>
+        <input type="button" name="btn_numero" id="btn_1" value="1" />
+        <input type="button" name="btn_numero" id="btn_2" value="2" />
+        <input type="button" name="btn_numero" id="btn_3" value="3" />
+        <input type="button" name="btn_operador" id="btn_sumar" value="+" />
+        <br>
+        <input type="button" name="btn_numero" id="btn_4" value="4" />
+        <input type="button" name="btn_numero" id="btn_5" value="5" />
+        <input type="button" name="btn_numero" id="btn_6" value="6" />
+        <input type="button" name="btn_operador" id="btn_restar" value="-" />
+
+        <br>
+        <input type="button" name="btn_numero" id="btn_7" value="7" />
+        <input type="button" name="btn_numero" id="btn_8" value="8" />
+        <input type="button" name="btn_numero" id="btn_9" value="9" />
+        <input type="button" name="btn_operador" id="btn_multiplicar" value="*" /><br>
+        <input type="button" name="btn_numero" id="btn_0" value="0" />
+        <input type="button" name="btn_numero" id="btn_igual" value="=" />
+        <input type="button" name="btn_operador" id="btn_dividir" value="/" />
+	</div>
+  
+</body>
+
+</html>
